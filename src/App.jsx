@@ -35,7 +35,7 @@ const App = () => {
   // Rename a chat
   const handleRenameChat = async (id, newTitle) => {
     try {
-      const res = await axios.put(`http://localhost:5000/chats/${id}`, {
+      const res = await axios.put(`${url}/chats/${id}`, {
         title: newTitle,
       });
       setChats((prev) =>
@@ -52,7 +52,7 @@ const App = () => {
   // Delete a chat
   const handleDeleteChat = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/chats/${id}`);
+      await axios.delete(`${url}/chats/${id}`);
       setChats((prev) => prev.filter((c) => c.id !== id));
       if (activeChat?.id === id) {
         setActiveChat(chats.length > 1 ? chats[0] : null);
@@ -64,7 +64,7 @@ const App = () => {
 
   const deleteMessage = async (chatId, msgIndex) => {
     // console.log("Deleting message", chatId, msgIndex);
-    await fetch(`http://localhost:5000/chats/${chatId}/messages/${msgIndex}`, {
+    await fetch(`${id}/chats/${chatId}/messages/${msgIndex}`, {
       method: "DELETE",
     });
 
@@ -92,24 +92,24 @@ const App = () => {
     try {
       // Post user message
       await axios.post(
-        `http://localhost:5000/chats/${activeChat.id}/messages`,
+        `${url}/chats/${activeChat.id}/messages`,
         { sender: "user", text }
       );
 
       // Refresh active chat
       const res = await axios.get(
-        `http://localhost:5000/chats/${activeChat.id}`
+        `${url}/chats/${activeChat.id}`
       );
       setActiveChat(res.data);
 
       // Mock bot reply
       setTimeout(async () => {
         await axios.post(
-          `http://localhost:5000/chats/${activeChat.id}/messages`,
+          `${url}/chats/${activeChat.id}/messages`,
           { sender: "bot", text: `You said: ${text}` }
         );
         const res2 = await axios.get(
-          `http://localhost:5000/chats/${activeChat.id}`
+          `${url}/chats/${activeChat.id}`
         );
         setActiveChat(res2.data);
       }, 800);
