@@ -16,9 +16,14 @@ const App = () => {
       .get(url)
       .then((res) => {
         setChats(res.data);
+        console.log(res.data);
         if (res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
       })
       .catch((err) => console.error("Error fetching chats:", err));
+
+      fetch("https://your-backend.onrender.com/chats")
+        .then(res => res.json())
+        .then(data => setChats(data));
   }, []);
 
   // Create a new chat
