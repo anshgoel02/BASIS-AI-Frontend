@@ -3,33 +3,44 @@ import Sidebar from "./components/Sidebar.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import ChatInput from "./components/ChatInput.jsx";
 import axios from "axios";
+import api from "./api.js";
 
 const App = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
 
   const url = "https://sap-basis-backend.onrender.com/chats";
+  // const url = "http://localhost:5000/chats";
 
   // Load all chats on first render
   useEffect(() => {
-    axios
-      .get(url)
-      .then((res) => {
+    const fetchChats = async () => {
+      try {
+        const res = await api.get("/chats");
         setChats(res.data);
-        console.log(res.data);
-        if (res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
-      })
-      .catch((err) => console.error("Error fetching chats:", err));
+        if(res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
+      }
+      catch (err) {
+        console.error("Error fetching chats: ",err);
+      }
+    };
 
-      fetch("https://your-backend.onrender.com/chats")
-        .then(res => res.json())
-        .then(data => setChats(data));
+    fetchChats();
+
+    // axios
+    //   .get(url)
+    //   .then((res) => {
+    //     setChats(res.data);
+    //     console.log(res);
+    //     if (res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
+    //   })
+    //   .catch((err) => console.error("Error fetching chats:", err));
   }, []);
 
   // Create a new chat
   const handleNewChat = async () => {
     try {
-      const res = await axios.post(url, {});
+      const res = await api.post("/chats", {});
       setChats((prev) => [...prev, res.data]);
       setActiveChat(res.data);
     } catch (err) {
@@ -40,7 +51,7 @@ const App = () => {
   // Rename a chat
   const handleRenameChat = async (id, newTitle) => {
     try {
-      const res = await axios.put(`${url}/${id}`, {
+      const res = await api.put(`/chats/${id}`, {
         title: newTitle,
       });
       setChats((prev) =>
@@ -57,35 +68,32 @@ const App = () => {
   // Delete a chat
   const handleDeleteChat = async (id) => {
     try {
-      await axios.delete(`${url}/${id}`);
-      setChats((prev) => prev.filter((c) => c.id !== id));
+      await api.delete(`/chats/${id}`);
+      const updatedChats = chats.filter(c => c.id !== id);
+      setChats(updatedChats);
+      
       if (activeChat?.id === id) {
-        setActiveChat(chats.length > 1 ? chats[0] : null);
+        setActiveChat(updatedChats[0] || null);
       }
     } catch (err) {
       console.error("Error deleting chat:", err);
     }
   };
 
-  const deleteMessage = async (chatId, msgIndex) => {
-    // console.log("Deleting message", chatId, msgIndex);
-    await fetch(`${id}/${chatId}/messages/${msgIndex}`, {
-      method: "DELETE",
-    });
+  const deleteMessage = async (msgIndex) => {
+    if(!activeChat) return;
 
-    setChats(prev =>
-      prev.map(chat =>
-        chat.id === chatId
-          ? { ...chat, messages: chat.messages.filter((_, i) => i !== msgIndex) }
-          : chat
-      )
-    );
-
-    if (activeChat?.id === chatId) {
+    try {
+      await api.delete(`/chats/${activeChat.id}/messages/${msgIndex}`);
       setActiveChat(prev => ({
         ...prev,
-        messages: prev.messages.filter((_, i) => i !== msgIndex),
+        messages: prev.messages.filter((_,i) => i !== msgIndex),
       }));
+      setChats(prev => prev.map(c => c.id === activeChat.id ? {...c,
+        messages: prev.messages.filter((_,i) => i !== msgIndex)} : c));
+    }
+    catch (err) {
+      console.error(err);
     }
   };
 
@@ -96,25 +104,25 @@ const App = () => {
 
     try {
       // Post user message
-      await axios.post(
-        `${url}/${activeChat.id}/messages`,
+      await api.post(
+        `/chats/${activeChat.id}/messages`,
         { sender: "user", text }
       );
 
       // Refresh active chat
-      const res = await axios.get(
-        `${url}/${activeChat.id}`
+      const res = await api.get(
+        `/chats/${activeChat.id}`
       );
       setActiveChat(res.data);
 
       // Mock bot reply
       setTimeout(async () => {
-        await axios.post(
-          `${url}/${activeChat.id}/messages`,
+        await api.post(
+          `/chats/${activeChat.id}/messages`,
           { sender: "bot", text: `You said: ${text}` }
         );
-        const res2 = await axios.get(
-          `${url}/${activeChat.id}`
+        const res2 = await api.get(
+          `/chats/${activeChat.id}`
         );
         setActiveChat(res2.data);
       }, 800);
@@ -137,7 +145,7 @@ const App = () => {
         {activeChat ? (
           <>
             <ChatWindow messages={activeChat?.messages || []}
-  onDeleteMessage={(msgIndex) => deleteMessage(activeChat.id, msgIndex)}/>
+  onDeleteMessage={(msgIndex) => deleteMessage(msgIndex)}/>
             <ChatInput onSend={handleSend} />
           </>
         ) : (
