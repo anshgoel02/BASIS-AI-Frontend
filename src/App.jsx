@@ -9,9 +9,6 @@ const App = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
 
-  // const url = "https://sap-basis-backend.onrender.com/chats";
-  // const url = "http://localhost:5000";
-
   // Load all chats on first render
   useEffect(() => {
     const fetchChats = async () => {
@@ -26,15 +23,6 @@ const App = () => {
     };
 
     fetchChats();
-
-    // axios
-    //   .get(url)
-    //   .then((res) => {
-    //     setChats(res.data);
-    //     console.log(res);
-    //     if (res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
-    //   })
-    //   .catch((err) => console.error("Error fetching chats:", err));
   }, []);
 
   // Create a new chat
