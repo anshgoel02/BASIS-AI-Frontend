@@ -9,8 +9,8 @@ const App = () => {
   const [chats, setChats] = useState([]);
   const [activeChat, setActiveChat] = useState(null);
 
-  const url = "https://sap-basis-backend.onrender.com/chats";
-  // const url = "http://localhost:5000/chats";
+  // const url = "https://sap-basis-backend.onrender.com/chats";
+  // const url = "http://localhost:5000";
 
   // Load all chats on first render
   useEffect(() => {
