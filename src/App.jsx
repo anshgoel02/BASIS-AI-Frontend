@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import ChatInput from "./components/ChatInput.jsx";
-import axios from "axios";
 import api from "./api.js";
 
 const App = () => {
@@ -43,9 +42,9 @@ const App = () => {
         title: newTitle,
       });
       setChats((prev) =>
-        prev.map((c) => (c.id === id ? { ...c, title: res.data.title } : c))
+        prev.map((c) => (c._id === id ? { ...c, title: res.data.title } : c))
       );
-      if (activeChat?.id === id) {
+      if (activeChat?._id === id) {
         setActiveChat((prev) => ({ ...prev, title: res.data.title }));
       }
     } catch (err) {
@@ -57,10 +56,10 @@ const App = () => {
   const handleDeleteChat = async (id) => {
     try {
       await api.delete(`/chats/${id}`);
-      const updatedChats = chats.filter(c => c.id !== id);
+      const updatedChats = chats.filter(c => c._id !== id);
       setChats(updatedChats);
       
-      if (activeChat?.id === id) {
+      if (activeChat?._id === id) {
         setActiveChat(updatedChats[0] || null);
       }
     } catch (err) {
@@ -72,13 +71,13 @@ const App = () => {
     if(!activeChat) return;
 
     try {
-      await api.delete(`/chats/${activeChat.id}/messages/${msgIndex}`);
+      await api.delete(`/chats/${activeChat._id}/messages/${msgIndex}`);
       setActiveChat(prev => ({
         ...prev,
         messages: prev.messages.filter((_,i) => i !== msgIndex),
       }));
-      setChats(prev => prev.map(c => c.id === activeChat.id ? {...c,
-        messages: prev.messages.filter((_,i) => i !== msgIndex)} : c));
+      setChats(prev => prev.map(c => c._id === activeChat._id ? {...c,
+        messages: c.messages.filter((_,i) => i !== msgIndex)} : c));
     }
     catch (err) {
       console.error(err);
@@ -93,24 +92,24 @@ const App = () => {
     try {
       // Post user message
       await api.post(
-        `/chats/${activeChat.id}/messages`,
+        `/chats/${activeChat._id}/messages`,
         { sender: "user", text }
       );
 
       // Refresh active chat
       const res = await api.get(
-        `/chats/${activeChat.id}`
+        `/chats/${activeChat._id}`
       );
       setActiveChat(res.data);
 
       // Mock bot reply
       setTimeout(async () => {
         await api.post(
-          `/chats/${activeChat.id}/messages`,
+          `/chats/${activeChat._id}/messages`,
           { sender: "bot", text: `You said: ${text}` }
         );
         const res2 = await api.get(
-          `/chats/${activeChat.id}`
+          `/chats/${activeChat._id}`
         );
         setActiveChat(res2.data);
       }, 800);
@@ -123,7 +122,7 @@ const App = () => {
     <div className="flex h-screen bg-gray-100">
       <Sidebar
         chats={chats}
-        activeChatId={activeChat?.id}
+        activeChatId={activeChat?._id}
         onNewChat={handleNewChat}
         onSelectChat={setActiveChat}
         onRenameChat={handleRenameChat}

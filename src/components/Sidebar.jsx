@@ -32,19 +32,19 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
         ) : (
           chats.map((chat) => (
             <div
-              key={chat.id}
+              key={chat._id}
               className={`flex items-center justify-between p-2 rounded cursor-pointer ${
-                activeChatId === chat.id ? "bg-gray-700" : "hover:bg-gray-800"
+                activeChatId === chat._id ? "bg-gray-700" : "hover:bg-gray-800"
               }`}
             >
-              {renamingChatId === chat.id ? (
+              {renamingChatId === chat._id ? (
                 <input
                   type="text"
                   value={tempName}
                   onChange={(e) => setTempName(e.target.value)}
-                  onBlur={() => handleRenameSubmit(chat.id)}
+                  onBlur={() => handleRenameSubmit(chat._id)}
                   onKeyDown={(e) =>
-                    e.key === "Enter" ? handleRenameSubmit(chat.id) : null
+                    e.key === "Enter" ? handleRenameSubmit(chat._id) : null
                   }
                   autoFocus
                   className="flex-1 bg-gray-800 text-white px-2 py-1 rounded"
@@ -61,7 +61,7 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
               <div className="flex items-center space-x-1 ml-2">
                 <button
                   onClick={() => {
-                    setRenamingChatId(chat.id);
+                    setRenamingChatId(chat._id);
                     setTempName(chat.title);
                   }}
                   className="p-1 hover:bg-gray-700 rounded"
@@ -69,7 +69,7 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
                   <Pencil size={16} />
                 </button>
                 <button
-                  onClick={() => onDeleteChat(chat.id)}
+                  onClick={() => onDeleteChat(chat._id)}
                   className="p-1 hover:bg-gray-700 rounded"
                 >
                   <Trash2 size={16} />
