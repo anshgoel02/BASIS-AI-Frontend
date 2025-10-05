@@ -22,6 +22,7 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
       <Link
         to="/"
         className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded mb-4 text-center"
+        onClick={() => onSelectChat(null)}
       >
         🏠 Home
       </Link>
