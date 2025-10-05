@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, onDeleteChat }) => {
   const [renamingChatId, setRenamingChatId] = useState(null);
@@ -16,6 +17,14 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
   return (
     <div className="w-64 bg-gray-900 text-white flex flex-col p-4">
       <h1 className="text-xl font-bold mb-6">SAP BASIS Bot</h1>
+
+      {/* Home Button */}
+      <Link
+        to="/"
+        className="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded mb-4 text-center"
+      >
+        🏠 Home
+      </Link>
 
       {/* New Chat Button */}
       <button
@@ -50,12 +59,19 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
                   className="flex-1 bg-gray-800 text-white px-2 py-1 rounded"
                 />
               ) : (
-                <div
+                <Link
+                  to={`/chat/${chat._id}`}
                   className="flex-1 truncate"
                   onClick={() => onSelectChat(chat)}
                 >
                   {chat.title}
-                </div>
+                </Link>
+                // <div
+                //   className="flex-1 truncate"
+                //   onClick={() => onSelectChat(chat)}
+                // >
+                //   {chat.title}
+                // </div>
               )}
 
               <div className="flex items-center space-x-1 ml-2">

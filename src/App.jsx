@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import ChatInput from "./components/ChatInput.jsx";
+import HomePage from "./components/Homepage.jsx";
 import api from "./api.js";
 
 const App = () => {
@@ -14,7 +16,7 @@ const App = () => {
       try {
         const res = await api.get("/chats");
         setChats(res.data);
-        if(res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
+        // if(res.data.length > 0) setActiveChat(res.data[0]); // select first chat by default
       }
       catch (err) {
         console.error("Error fetching chats: ",err);
@@ -119,29 +121,55 @@ const App = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar
-        chats={chats}
-        activeChatId={activeChat?._id}
-        onNewChat={handleNewChat}
-        onSelectChat={setActiveChat}
-        onRenameChat={handleRenameChat}
-        onDeleteChat={handleDeleteChat}
-      />
-      <div className="flex flex-col flex-1">
-        {activeChat ? (
-          <>
-            <ChatWindow messages={activeChat?.messages || []}
-  onDeleteMessage={(msgIndex) => deleteMessage(msgIndex)}/>
-            <ChatInput onSend={handleSend} />
-          </>
-        ) : (
-          <div className="flex items-center justify-center flex-1 text-gray-500">
-            Select or create a chat
-          </div>
-        )}
+    <Router>
+      <div className="flex h-screen bg-gray-100">
+        <Sidebar
+          chats={chats}
+          activeChatId={activeChat?._id}
+          onNewChat={handleNewChat}
+          onSelectChat={setActiveChat}
+          onRenameChat={handleRenameChat}
+          onDeleteChat={handleDeleteChat}
+        />
+        <div className="flex flex-col flex-1">
+          {/* {activeChat ? (
+            <>
+              <ChatWindow messages={activeChat?.messages || []}
+    onDeleteMessage={(msgIndex) => deleteMessage(msgIndex)}/>
+              <ChatInput onSend={handleSend} />
+            </>
+          ) : (
+            <div className="flex items-center justify-center flex-1 text-gray-500">
+              Select or create a chat
+            </div>
+          )} */}
+          <Routes>
+              {/* ✅ Home route */}
+              <Route path="/" element={<HomePage />} />
+
+              {/* ✅ Chat route */}
+              <Route
+                path="/chat/:id"
+                element={
+                  activeChat ? (
+                    <>
+                      <ChatWindow
+                        messages={activeChat?.messages || []}
+                        onDeleteMessage={deleteMessage}
+                      />
+                      <ChatInput onSend={handleSend} />
+                    </>
+                  ) : (
+                    <div className="flex items-center justify-center flex-1 text-gray-500">
+                      Select or create a chat
+                    </div>
+                  )
+                }
+              />
+            </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 };
 
