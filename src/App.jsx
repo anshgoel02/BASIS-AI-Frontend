@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar.jsx";
 import ChatWindow from "./components/ChatWindow.jsx";
 import ChatInput from "./components/ChatInput.jsx";
-import HomePage from "./components/Homepage.jsx";
+import HomePage from "./components/HomePage.jsx";
 import api from "./api.js";
 
 const App = () => {
