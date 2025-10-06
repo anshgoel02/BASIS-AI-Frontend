@@ -1,36 +1,73 @@
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api.js"; // assuming your api.js has axios instance
 
-const sampleAlerts = [
-  { name: 'High CPU Usage', value: 10 },
-  { name: 'Disk Space Low', value: 5 },
-  { name: 'Memory Leak', value: 8 },
-  { name: 'Network Error', value: 3 },
-];
+const HomePage = () => {
+  const navigate = useNavigate();
+  const [apps, setApps] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  useEffect(() => {
+    const fetchApps = async () => {
+      try {
+        const res = await api.get("/chats/apps-summary"); // new route for aggregated app info
+        // Transform API response into frontend-friendly structure
+        const formatted = res.data.map((app) => ({
+          name: app._id, // appName from backend
+          display: app._id, // can add better display names if needed
+          notifications: app.totalNotifications,
+          lastUpdated: new Date(app.lastUpdated).toLocaleDateString("en-IN"),
+        }));
+        setApps(formatted);
+      } catch (err) {
+        console.error("Error fetching apps:", err);
+        setError("Failed to load apps");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-export default function HomePage() {
+    fetchApps();
+  }, []);
+
+  if (loading) return <div className="p-8 text-gray-500">Loading apps...</div>;
+  if (error) return <div className="p-8 text-red-500">{error}</div>;
+
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6">
-      <h1 className="text-2xl font-bold mb-6">System Alerts Overview</h1>
-      <PieChart width={500} height={400}>
-        <Pie
-          data={sampleAlerts}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={150}
-          fill="#8884d8"
-          label
-        >
-          {sampleAlerts.map((_, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
+    // <div className="grid grid-cols-2 gap-6 p-8 w-full">
+    //   {apps.map((app) => (
+    //     <div
+    //       key={app.name}
+    //       onClick={() => navigate(`/app/${app.name}`)}
+    //       className="bg-white rounded-2xl shadow-md hover:shadow-lg p-6 cursor-pointer transition"
+    //     >
+    //       <h2 className="text-xl font-semibold mb-2">{app.display}</h2>
+    //       <p className="text-gray-600">SAP Notifications: {app.notifications}</p>
+    //       <p className="text-gray-600">Last Updated: {app.lastUpdated}</p>
+    //     </div>
+    //   ))}
+    // </div>
+    <div className="flex flex-col p-8 w-full h-full">
+        {/* Dashboard Title */}
+        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+        {/* Grid of Apps */}
+        <div className="grid grid-cols-2 gap-6 flex-1 overflow-y-auto">
+            {apps.map((app) => (
+            <div
+                key={app._id || app.name}
+                onClick={() => navigate(`/app/${app.name}`)}
+                className="bg-white rounded-2xl shadow-md hover:shadow-lg p-6 cursor-pointer transition flex flex-col justify-between"
+            >
+                <h2 className="text-xl font-semibold mb-2">{app.display || app.name}</h2>
+                <p className="text-gray-600">SAP Notifications: {app.notifications}</p>
+                <p className="text-gray-600">Last Updated: {app.lastUpdated}</p>
+            </div>
+            ))}
+        </div>
     </div>
   );
-}
+};
+
+export default HomePage;

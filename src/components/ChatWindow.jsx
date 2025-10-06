@@ -3,7 +3,9 @@ import React, { useEffect, useRef } from "react";
 import Message from "./Message.jsx";
 
 const ChatWindow = ({ messages, onDeleteMessage }) => {
+  // console.log("Inside ChatWindow");
   const bottomRef = useRef(null);
+  // console.log(messages)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });

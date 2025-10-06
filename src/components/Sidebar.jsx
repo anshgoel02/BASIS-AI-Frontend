@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, onDeleteChat }) => {
+const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, onDeleteChat, appName }) => {
   const [renamingChatId, setRenamingChatId] = useState(null);
   const [tempName, setTempName] = useState("");
 
@@ -16,7 +16,7 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
 
   return (
     <div className="w-64 bg-gray-900 text-white flex flex-col p-4">
-      <h1 className="text-xl font-bold mb-6">SAP BASIS Bot</h1>
+      <h1 className="text-xl font-bold mb-6">{appName}</h1>
 
       {/* Home Button */}
       <Link
