@@ -15,8 +15,8 @@ export default function Message({ text, sender, timestamp, onDoubleClick }) {
   };
 
   if (timestamp) {
-    const [datePart, timePart] = timestamp.split(" "); // ["14-9-2025" "17:11:34"]
-    const [day, month, year] = datePart.split("-");   // ["14","9","2025"]
+    const [datePart, timePart] = timestamp.split(" "); // ["14/9/2025" "17:11:34"]
+    const [day, month, year] = datePart.split("/");   // ["14","9","2025"]
     const [hour, minute] = timePart.split(":");       // ["17","11","34"]
     displayTime = `${day}/${month} ${hour}:${minute}`; // "14/9 17:11"
   }
