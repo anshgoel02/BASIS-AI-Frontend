@@ -60,13 +60,13 @@ const Sidebar = ({ chats, activeChatId, onNewChat, onSelectChat, onRenameChat, o
                   className="flex-1 bg-gray-800 text-white px-2 py-1 rounded"
                 />
               ) : (
-                <Link
-                  to={`/chat/${chat._id}`}
+                <div
+                  // to={`/chats/${chat._id}`}
                   className="flex-1 truncate"
                   onClick={() => onSelectChat(chat)}
                 >
                   {chat.title}
-                </Link>
+                </div>
                 // <div
                 //   className="flex-1 truncate"
                 //   onClick={() => onSelectChat(chat)}
