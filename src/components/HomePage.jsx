@@ -7,21 +7,30 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 const COLORS = ["#EF4444", "#FACC15", "#3B82F6"]; // red, yellow, blue
 
 const cockpitLinks = {
-  "SAP Integration Suite":
+  "Integration Suite":
     "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/integration-suite",
-  "SAP BTP":
-    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account",
-  "SAP Signavio":
+  // "SAP BTP":
+  //   "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account",
+  "Signavio":
     "https://portal.signavio.com/p/login",
-  "SAP Analytics Cloud":
+  "Analytics Cloud":
     "https://eu10.sapanalytics.cloud",
+  "Datasphere":
+    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/datasphere",
+  "HANA Cloud":
+    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/databases/hana-cloud",
+  "Build Apps":
+    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/build-apps"
 };
   
 const loginLinks = {
-  "SAP Integration Suite": "https://integration.eu10.cloud.sap",
-  "SAP BTP": "https://account.hanatrial.ondemand.com/",
-  "SAP Signavio": "https://portal.signavio.com/p/login",
-  "SAP Analytics Cloud": "https://eu10.sapanalytics.cloud/sap/fpa/ui/",
+  "Integration Suite": "https://integration.eu10.cloud.sap",
+  // "BTP": "https://account.hanatrial.ondemand.com/",
+  "Signavio": "https://portal.signavio.com/p/login",
+  "Analytics Cloud": "https://eu10.sapanalytics.cloud/sap/fpa/ui/",
+  "Datasphere": "https://datasphere.eu10.hcs.cloud.sap/",
+  "HANA Cloud": "https://hana-cockpit.eu10.hanacloud.sap/cockpit",
+  "Build Apps": "https://buildapps.cloud.sap/"
 };
 
 
@@ -34,7 +43,8 @@ const HomePage = () => {
   useEffect(() => {
     const fetchApps = async () => {
       try {
-        const res = await api.get("/chats/apps-summary"); // new route for aggregated app info
+        const res = await api.get("/chats/apps-summary");
+         // new route for aggregated app info
         // Transform API response into frontend-friendly structure
         const formatted = res.data.map((app) => ({
           name: app._id, // appName from backend
