@@ -16,9 +16,9 @@ const cockpitLinks = {
   "Datasphere":
     "https://account.hana.ondemand.com/#/home/welcome",
   "HANA Cloud":
-    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/databases/hana-cloud",
+    "https://account.hana.ondemand.com/#/home/welcome",
   "Build Apps":
-    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/build-apps"
+    "https://account.hana.ondemand.com/#/home/welcome"
 };
   
 const loginLinks = {
@@ -26,8 +26,8 @@ const loginLinks = {
   "Signavio": "https://app-ca.signavio.com/p/login",
   "Analytics Cloud": "https://www.sap.com/india/products/data-cloud/cloud-analytics.html",
   "Datasphere": "#",
-  "HANA Cloud": "https://hana-cockpit.eu10.hanacloud.sap/cockpit",
-  "Build Apps": "https://buildapps.cloud.sap/"
+  "HANA Cloud": "https://account.hana.ondemand.com/#/home/welcome",
+  "Build Apps": "https://discovery-center.cloud.sap/serviceCatalog/sap-build-apps/?region=all"
 };
 
 
