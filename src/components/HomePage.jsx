@@ -8,15 +8,13 @@ const COLORS = ["#EF4444", "#FACC15", "#3B82F6"]; // red, yellow, blue
 
 const cockpitLinks = {
   "Integration Suite":
-    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/integration-suite",
-  // "SAP BTP":
-  //   "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account",
+    "https://account.hana.ondemand.com/#/home/welcome",
   "Signavio":
-    "https://portal.signavio.com/p/login",
+    "https://account.hana.ondemand.com/#/home/welcome",
   "Analytics Cloud":
-    "https://eu10.sapanalytics.cloud",
+    "https://account.hana.ondemand.com/#/home/welcome",
   "Datasphere":
-    "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/applications/datasphere",
+    "https://account.hana.ondemand.com/#/home/welcome",
   "HANA Cloud":
     "https://cockpit.eu10.hana.ondemand.com/cockpit#/globalaccount/your-global-account/subaccount/your-subaccount/databases/hana-cloud",
   "Build Apps":
@@ -24,11 +22,10 @@ const cockpitLinks = {
 };
   
 const loginLinks = {
-  "Integration Suite": "https://integration.eu10.cloud.sap",
-  // "BTP": "https://account.hanatrial.ondemand.com/",
-  "Signavio": "https://portal.signavio.com/p/login",
-  "Analytics Cloud": "https://eu10.sapanalytics.cloud/sap/fpa/ui/",
-  "Datasphere": "https://datasphere.eu10.hcs.cloud.sap/",
+  "Integration Suite": "https://www.sap.com/india/products/technology-platform/integration-suite.html",
+  "Signavio": "https://app-ca.signavio.com/p/login",
+  "Analytics Cloud": "https://www.sap.com/india/products/data-cloud/cloud-analytics.html",
+  "Datasphere": "#",
   "HANA Cloud": "https://hana-cockpit.eu10.hanacloud.sap/cockpit",
   "Build Apps": "https://buildapps.cloud.sap/"
 };
