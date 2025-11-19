@@ -40,19 +40,24 @@ const HomePage = () => {
   useEffect(() => {
     const fetchApps = async () => {
       try {
-        const res = await api.get("/chats/apps-summary");
-         // new route for aggregated app info
-        // Transform API response into frontend-friendly structure
-        const formatted = res.data.map((app) => ({
-          name: app._id, // appName from backend
-          display: app._id, // can add better display names if needed
-          critical: app.critical || 2,
-          warning: app.warning || 4,
-          info: app.info || 7,
-          notifications: app.totalNotifications,
-          lastUpdated: new Date(app.lastUpdated).toLocaleDateString("en-IN"),
-        }));
-        setApps(formatted);
+        console.log("Fetching apps summary...");
+        // Commented part start
+
+        // const res = await api.get("/chats/apps-summary");
+        //  // new route for aggregated app info
+        // // Transform API response into frontend-friendly structure
+        // const formatted = res.data.map((app) => ({
+        //   name: app._id, // appName from backend
+        //   display: app._id, // can add better display names if needed
+        //   critical: app.critical || 2,
+        //   warning: app.warning || 4,
+        //   info: app.info || 7,
+        //   notifications: app.totalNotifications,
+        //   lastUpdated: new Date(app.lastUpdated).toLocaleDateString("en-IN"),
+        // }));
+        // setApps(formatted);
+
+        // Commented part end
       } catch (err) {
         console.error("Error fetching apps:", err);
         setError("Failed to load apps");
