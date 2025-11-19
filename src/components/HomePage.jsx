@@ -177,28 +177,6 @@ const HomePage = () => {
                             </div>
                         </div>
 
-                        {/* Pie Chart
-                        <div className="flex justify-center my-4">
-                            <ResponsiveContainer width="60%" height={100}>
-                            <PieChart>
-                                <Pie
-                                data={pieData}
-                                dataKey="value"
-                                nameKey="name"
-                                innerRadius={25}
-                                outerRadius={40}
-                                paddingAngle={3}
-                                >
-                                {pieData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                                </Pie>
-                                <Tooltip />
-                            </PieChart>
-                            </ResponsiveContainer>
-                        </div> */}
-
-                        {/* <p className="text-gray-600">SAP Notifications: {app.notifications}</p> */}
                         <p className="text-gray-600">Last Updated: {app.lastUpdated}</p>
                     </div>
                 )
